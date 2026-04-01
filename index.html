@@ -5,7 +5,99 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Yuri Rangel Advocacia — Defesa Criminal Estratégica especializada no atendimento ao Sul do Brasil. Mais de 4000 horas de estudos em direito penal." />
   <meta name="keywords" content="advocacia criminal, defesa criminal, habeas corpus, sul do Brasil, direito penal, Curitiba, PR, SC, RS" />
+  <meta property="og:title" content="Yuri Rangel Advocacia | Defesa Criminal Estratégica" />
+  <meta property="og:description" content="Defesa Criminal Estratégica especializada no Sul do Brasil. Mais de 4000 horas de dedicação ao Direito Penal." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yurijrangel.github.io/SITE-ADVOCACIA-YURI/" />
   <title>Yuri Rangel Advocacia | Defesa Criminal Estratégica - Sul do Brasil</title>
+
+  <!-- ============================================================
+       Google Analytics 4 (GA4)
+       Substitua G-XXXXXXXXXX pelo seu Measurement ID real.
+       Veja instruções em docs/ANALYTICS.md
+  ============================================================ -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <!-- ============================================================
+       Schema Markup LD-JSON — SEO Estruturado
+       Veja instruções em docs/SEO.md
+  ============================================================ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "Yuri Rangel Advocacia",
+        "url": "https://yurijrangel.github.io/SITE-ADVOCACIA-YURI/",
+        "logo": "https://yurijrangel.github.io/SITE-ADVOCACIA-YURI/assets/logo.png",
+        "description": "Escritório de advocacia criminal especializado em defesa estratégica no Sul do Brasil.",
+        "telephone": "+55-41-98439-7354",
+        "sameAs": []
+      },
+      {
+        "@type": "LegalService",
+        "name": "Yuri Rangel Advocacia",
+        "image": "https://yurijrangel.github.io/SITE-ADVOCACIA-YURI/assets/logo.png",
+        "url": "https://yurijrangel.github.io/SITE-ADVOCACIA-YURI/",
+        "telephone": "+55-41-98439-7354",
+        "description": "Defesa criminal estratégica e imediata. Especializado em direito penal no Sul do Brasil (PR, SC, RS).",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "PR",
+          "addressCountry": "BR"
+        },
+        "areaServed": [
+          {"@type": "State", "name": "Paraná"},
+          {"@type": "State", "name": "Santa Catarina"},
+          {"@type": "State", "name": "Rio Grande do Sul"}
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Áreas de Atuação",
+          "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Defesa Criminal"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Habeas Corpus"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Audiência de Custódia"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Execução Penal"}}
+          ]
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Início",
+            "item": "https://yurijrangel.github.io/SITE-ADVOCACIA-YURI/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Áreas de Atuação",
+            "item": "https://yurijrangel.github.io/SITE-ADVOCACIA-YURI/#areas"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Blog Jurídico",
+            "item": "https://yurijrangel.github.io/SITE-ADVOCACIA-YURI/blog.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -24,6 +116,7 @@
         <a href="#areas">Áreas</a>
         <a href="#testimonials">Depoimentos</a>
         <a href="#urgent">Urgência</a>
+        <a href="blog.html">Blog</a>
       </nav>
     </div>
   </header>
