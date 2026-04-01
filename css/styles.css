@@ -477,7 +477,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .about-image img {
   width: 100%;
-  max-width: 460px;
+  max-width: 320px;
   border-radius: var(--radius-lg);
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   object-fit: cover;
@@ -725,6 +725,82 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* =============================================
+   PROCESSO DE DEFESA
+   ============================================= */
+.section-process {
+  background: var(--cream);
+}
+
+.section-process .section-header h2 { color: var(--ink); }
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+
+.process-grid::before {
+  content: '';
+  position: absolute;
+  top: 36px;
+  left: calc(12.5% + 20px);
+  right: calc(12.5% + 20px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.process-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px 0;
+  position: relative;
+}
+
+.process-number {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--ink-soft);
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 24px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.process-step:hover .process-number {
+  background: var(--gold);
+  color: var(--ink);
+  transform: scale(1.1);
+}
+
+.process-step h3 {
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.process-step p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 200px;
+}
+
+/* =============================================
    DIFFERENTIALS
    ============================================= */
 .section-differentials { background: var(--cream-dark); }
@@ -931,7 +1007,10 @@ img { max-width: 100%; height: auto; display: block; }
   .footer-brand { grid-column: 1 / -1; }
 
   .about-wrapper { grid-template-columns: 1fr; gap: 48px; }
-  .about-image img { max-width: 380px; margin: 0 auto; }
+  .about-image img { max-width: 300px; margin: 0 auto; }
+
+  .process-grid { grid-template-columns: 1fr 1fr; gap: 40px 20px; }
+  .process-grid::before { display: none; }
 }
 
 /* =============================================
@@ -990,6 +1069,9 @@ img { max-width: 100%; height: auto; display: block; }
 
   /* Areas */
   .areas-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* Process */
+  .process-grid { grid-template-columns: 1fr; gap: 32px; }
 
   /* Footer */
   .footer-inner { grid-template-columns: 1fr; gap: 36px; }
