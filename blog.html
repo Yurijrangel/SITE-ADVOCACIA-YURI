@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Blog jurídico de Yuri Rangel Advocacia — artigos sobre direito penal, habeas corpus, prisão em flagrante e defesa criminal no Sul do Brasil." />
+  <meta name="keywords" content="blog jurídico, direito penal, habeas corpus, defesa criminal, artigos jurídicos, advocacia criminal, Sul do Brasil" />
+  <meta property="og:title" content="Blog Jurídico | Yuri Rangel Advocacia" />
+  <meta property="og:description" content="Artigos e informações sobre direito penal escritos por Yuri Rangel, advogado criminalista especializado no Sul do Brasil." />
+  <meta property="og:type" content="website" />
+  <title>Blog Jurídico | Yuri Rangel Advocacia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.png" alt="Yuri Rangel Advocacia" class="logo" />
+      </a>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Abrir menu">☰</button>
+      <nav id="main-nav" class="main-nav">
+        <a href="index.html#about">Sobre</a>
+        <a href="index.html#areas">Áreas</a>
+        <a href="index.html#testimonials">Depoimentos</a>
+        <a href="index.html#urgent">Urgência</a>
+        <a href="blog.html" class="nav-active">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO DO BLOG -->
+    <section class="blog-hero">
+      <div class="container">
+        <h1>Blog Jurídico</h1>
+        <p>Informação jurídica de qualidade para você entender seus direitos.</p>
+      </div>
+    </section>
+
+    <!-- ARTIGOS -->
+    <section class="section section-blog">
+      <div class="container">
+        <div class="section-header">
+          <h2>Artigos Recentes</h2>
+          <div class="accent-line"></div>
+        </div>
+
+        <!-- Os artigos são carregados dinamicamente pelo JavaScript -->
+        <div id="blog-grid" class="blog-grid">
+          <p class="blog-loading">Carregando artigos...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL DE ARTIGO COMPLETO -->
+    <div id="blog-modal" class="blog-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+      <div class="blog-modal-overlay" id="modal-overlay"></div>
+      <div class="blog-modal-content">
+        <button class="blog-modal-close" id="modal-close" aria-label="Fechar artigo">✕</button>
+        <p class="blog-modal-categoria" id="modal-categoria"></p>
+        <h2 id="modal-title"></h2>
+        <p class="blog-modal-meta" id="modal-meta"></p>
+        <div class="blog-modal-body" id="modal-body"></div>
+        <div class="blog-modal-cta">
+          <p>Precisa de orientação jurídica?</p>
+          <a href="https://wa.me/5541984397354?text=Olá,%20li%20um%20artigo%20no%20site%20e%20gostaria%20de%20uma%20consulta" class="btn btn-primary" target="_blank">
+            Falar com Advogado no WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA CONTATO -->
+    <section class="section section-urgent">
+      <div class="container">
+        <div class="urgent-content">
+          <h2>Precisa de ajuda jurídica agora?</h2>
+          <p class="urgent-text">Tire suas dúvidas com um advogado especializado em direito penal. Atendimento ágil e sigiloso.</p>
+          <a href="https://wa.me/5541984397354?text=Olá,%20preciso%20de%20ajuda%20jurídica%20criminal" class="btn btn-urgent" target="_blank">
+            Falar com Advogado Agora (WhatsApp)
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-section">
+        <h4>Yuri Rangel Advocacia</h4>
+        <p>Defesa Criminal Estratégica</p>
+        <p><strong>OAB/PR:</strong> 134126</p>
+        <p><strong>Atendimento:</strong> Sul do Brasil (PR, SC, RS)</p>
+      </div>
+      <div class="footer-section">
+        <h4>Contato Rápido</h4>
+        <p>
+          <a href="https://wa.me/5541984397354" target="_blank">WhatsApp: (41) 98439-7354</a>
+        </p>
+        <p>
+          <a href="tel:+5541984397354">Telefone: (41) 98439-7354</a>
+        </p>
+      </div>
+      <div class="footer-section">
+        <h4>Links Rápidos</h4>
+        <a href="index.html#about">Sobre</a>
+        <a href="index.html#areas">Áreas de Atuação</a>
+        <a href="blog.html">Blog Jurídico</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="year"></span> Yuri Rangel Advocacia. Todos os direitos reservados. | Defesa com Excelência</p>
+    </div>
+  </footer>
+
+  <!-- Botão Flutuante WhatsApp -->
+  <a href="https://wa.me/5541984397354?text=Olá,%20preciso%20de%20ajuda%20jurídica%20criminal" class="whatsapp-float" target="_blank" aria-label="Abrir WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 256 256" fill="white">
+      <path d="M176.93,15.69A119.93,119.93,0,0,0,55.16,234.1L25.32,244.84a8,8,0,0,0-10.16-10.16l10.74-29.84A120,120,0,1,0,176.93,15.69ZM128,216a88,88,0,1,1,76.41-136.6l2.57,3.78,10.61-2.95-2.95,10.61,3.78,2.57A87.79,87.79,0,0,1,128,216Zm44-88a12,12,0,1,1-12-12A12,12,0,0,1,172,128Zm-32-32a12,12,0,1,1-12-12A12,12,0,0,1,140,96ZM96,96a12,12,0,1,1-12-12A12,12,0,0,1,96,96Zm0,32a12,12,0,1,1-12-12A12,12,0,0,1,96,128Z"/>
+    </svg>
+  </a>
+
+  <script src="js/scripts.js"></script>
+</body>
+</html>

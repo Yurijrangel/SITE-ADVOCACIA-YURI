@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "stars": 5,
+    "text": "Defesa técnica impecável. Yuri atuou de forma estratégica e conseguiu resultado favorável em situação extremamente delicada. Recomendo fortemente.",
+    "author": "Cliente anônimo"
+  },
+  {
+    "id": 2,
+    "stars": 5,
+    "text": "Atendimento humanizado, profissional e altamente competente. Senti-me seguro do início ao fim do processo. Muito grato pela dedicação.",
+    "author": "Cliente anônimo"
+  },
+  {
+    "id": 3,
+    "stars": 5,
+    "text": "A estratégia jurídica aplicada ao meu caso foi impecável. Resultado que superou expectativas. Profissional de confiança absoluta.",
+    "author": "Cliente anônimo"
+  },
+  {
+    "id": 4,
+    "stars": 5,
+    "text": "Disponibilidade constante, conhecimento profundo do direito penal e defesa firme. Foi exatamente o que eu precisava naquele momento crítico.",
+    "author": "Cliente anônimo"
+  }
+]

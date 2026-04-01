@@ -12,11 +12,22 @@ Site institucional moderno e responsivo para escritório de **advocacia criminal
 ✅ **Seções Completas**
 1. **Hero** — Chamada impactante com botões de ação
 2. **Sobre** — Apresentação do escritório + diferenciais
-3. **Áreas de Atuação** — 8 cards com especialidades
-4. **Atendimento Urgente** — Seção de urgência destacada
-5. **Diferenciais** — 4 pontos-chave de valor
-6. **Contato** — Formulário + botão WhatsApp
+3. **Áreas de Atuação** — 16 cards com especialidades
+4. **Depoimentos** — Seção com avaliações de clientes
+5. **Atendimento Urgente** — Seção de urgência destacada
+6. **Diferenciais** — 4 pontos-chave de valor
 7. **Rodapé** — Informações legais e rápidas
+
+✅ **SEO e Rastreamento**
+- Meta tags completas (description, keywords, Open Graph)
+- Schema Markup LD-JSON (Organization, LegalService, BreadcrumbList)
+- Google Analytics 4 (GA4) integrado — configure seu ID em `index.html`
+
+✅ **Blog Jurídico**
+- Página `blog.html` com artigos renderizados dinamicamente
+- Artigos em `data/blog.json` — edite apenas o JSON para adicionar conteúdo
+- Modal de leitura com artigo completo
+- CTA para contato após cada artigo
 
 ✅ **Funcionalidades**
 - Botão flutuante WhatsApp animado
@@ -24,89 +35,99 @@ Site institucional moderno e responsivo para escritório de **advocacia criminal
 - Menu responsivo para mobile
 - Scroll suave entre seções
 - Animações ao scroll
-- Formulário com integração WhatsApp
 
 ## Como Executar Localmente
 
 ### Opção 1: Python (Recomendado)
-```powershell
-cd "c:\Users\yuri.rangel.UNIANDRADE\Documents\site yuri"
+```bash
+cd SITE-ADVOCACIA-YURI
 python -m http.server 8000
 ```
 
 ### Opção 2: Node.js
-```powershell
-cd "c:\Users\yuri.rangel.UNIANDRADE\Documents\site yuri"
+```bash
+cd SITE-ADVOCACIA-YURI
 npx serve -s . -l 8000
 ```
 
-**Abra no navegador:** http://localhost:8000
+> **Abra no navegador:** http://localhost:8000
+
+> ⚠️ O blog precisa de um servidor local (não abre via `file://`) por usar `fetch()`.
 
 ## Estrutura
 
 ```
-site yuri/
+SITE-ADVOCACIA-YURI/
 ├── index.html          (página principal)
+├── blog.html           (blog jurídico)
 ├── css/
-│   └── styles.css      (estilos profissionais)
+│   └── styles.css      (estilos completos)
 ├── js/
-│   └── scripts.js      (interatividade + WhatsApp)
+│   └── scripts.js      (interatividade + blog)
+├── data/
+│   ├── testimonials.json  (depoimentos em JSON)
+│   └── blog.json          (artigos jurídicos)
+├── docs/
+│   ├── SEO.md          (guia de SEO)
+│   ├── ANALYTICS.md    (setup Google Analytics)
+│   └── BLOG.md         (como adicionar artigos)
 ├── assets/
-│   ├── logo.svg        (logo do escritório)
-│   └── favicon.svg     (favicon)
+│   ├── logo.png        (logo do escritório)
+│   ├── fundo.png       (imagem de fundo hero)
+│   └── yuri.jpeg       (foto do advogado)
 ├── README.md           (este arquivo)
 └── .gitignore
 ```
 
-## Personalização
+## Configurações Essenciais
 
-### 1. Número de WhatsApp
-No arquivo `index.html`, substitua `5541999999999` pelo número real:
+### 1. Google Analytics
+Abra `index.html` e substitua `G-XXXXXXXXXX` pelo seu Measurement ID real:
 ```html
-https://wa.me/5541999999999?text=...
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SEU-ID-AQUI"></script>
 ```
+📖 Veja o guia completo em [`docs/ANALYTICS.md`](docs/ANALYTICS.md)
 
-### 2. OAB e Informações Legais
-Edite no `index.html` (seção footer):
-```html
-<p><strong>OAB/PR:</strong> [Inserir número OAB]</p>
-```
+### 2. URL do Site (Schema Markup)
+Substitua `https://yurijrangel.github.io/SITE-ADVOCACIA-YURI/` pela URL real do site no bloco LD-JSON do `index.html`.
 
-### 3. Cores (opcional)
+### 3. Adicionar Artigos ao Blog
+Edite apenas o arquivo `data/blog.json`. Não é necessário tocar no HTML.
+📖 Veja o guia completo em [`docs/BLOG.md`](docs/BLOG.md)
+
+### 4. Cores (opcional)
 Em `css/styles.css`, altere as variáveis CSS:
 ```css
-:root{
-  --primary:#1F4D3A;      /* verde escuro */
-  --secondary:#C9A86A;    /* dourado */
-  --bg:#F5F5F5;           /* fundo */
+:root {
+  --primary:   #1F4D3A;   /* verde escuro */
+  --secondary: #C9A86A;   /* dourado */
+  --bg:        #F5F5F5;   /* fundo */
 }
 ```
 
-## Próximas Etapas
-
-- [ ] Integrar CMS (headless) ou backend
-- [ ] Adicionar formulário backend real
-- [ ] SEO + Schema Markup (LD-JSON)
-- [ ] Analytics (Google Analytics)
-- [ ] Depoimentos de clientes (seção adicional)
-- [ ] Blog/Artigos jurídicos
-- [ ] Deploy (GitHub Pages, Netlify, Vercel)
-
 ## Deploy Recomendado
 
-**GitHub Pages** (grátis, sem backend):
-```powershell
-git init
+### GitHub Pages (grátis)
+```bash
 git add .
-git commit -m "Site Yuri Rangel Advocacia"
-git branch -M main
-git remote add origin https://github.com/seu-usuario/yuri-rangel-advocacia.git
-git push -u origin main
+git commit -m "Atualização do site"
+git push origin main
 ```
+Ative GitHub Pages nas configurações do repositório → Pages → Branch: main.
 
-Depois ativar GitHub Pages nas configurações do repositório.
+**URL gerada:** `https://yurijrangel.github.io/SITE-ADVOCACIA-YURI/`
 
-**Alternativas:** Netlify, Vercel (arrastar e soltar)
+### Alternativas
+- **Netlify** — Arraste a pasta para https://app.netlify.com/drop
+- **Vercel** — Importe o repositório em https://vercel.com
+
+## Documentação
+
+| Arquivo | Descrição |
+|---------|-----------|
+| [`docs/SEO.md`](docs/SEO.md) | Como otimizar para o Google (Schema Markup, meta tags) |
+| [`docs/ANALYTICS.md`](docs/ANALYTICS.md) | Como configurar o Google Analytics 4 |
+| [`docs/BLOG.md`](docs/BLOG.md) | Como adicionar e editar artigos no blog |
 
 ## Licença
 

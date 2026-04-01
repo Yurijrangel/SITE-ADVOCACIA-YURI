@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "titulo": "O que é Habeas Corpus e quando utilizá-lo?",
+    "resumo": "O Habeas Corpus é um remédio constitucional que protege o direito à liberdade de locomoção. Entenda quando e como utilizá-lo na prática.",
+    "conteudo": "O Habeas Corpus está previsto no artigo 5º, inciso LXVIII, da Constituição Federal de 1988. Trata-se de um instrumento jurídico fundamental para proteger qualquer pessoa contra prisão ou ameaça de prisão ilegal ou abusiva.\n\n**Quando cabe Habeas Corpus?**\n\n- Quando houver coação ilegal à liberdade de locomoção\n- Quando a prisão for decretada por autoridade incompetente\n- Quando não houver justa causa para a detenção\n- Quando o prazo da prisão tiver se esgotado\n- Quando houver excesso de prazo na instrução criminal\n\n**Como funciona na prática?**\n\nO advogado protocola a impetração perante o tribunal competente, que pode ser o Tribunal de Justiça estadual ou tribunais superiores. A análise é feita com urgência, dado o caráter de liberdade individual envolvido.\n\nSe você ou alguém de sua família está sofrendo coação ilegal à liberdade, entre em contato imediatamente.",
+    "categoria": "Direito Constitucional",
+    "data": "2026-03-15",
+    "autor": "Yuri Rangel",
+    "imagem": null
+  },
+  {
+    "id": 2,
+    "titulo": "Seus direitos na Prisão em Flagrante",
+    "resumo": "Entenda quais são seus direitos fundamentais no momento da prisão em flagrante e o que fazer para protegê-los imediatamente.",
+    "conteudo": "A prisão em flagrante é uma das situações mais delicadas que uma pessoa pode enfrentar. Conhecer seus direitos é essencial para que sua defesa seja construída da forma mais sólida possível.\n\n**Direitos garantidos na prisão em flagrante:**\n\n1. **Direito ao silêncio** — Você não é obrigado a responder perguntas que possam incriminá-lo\n2. **Direito a um advogado** — Pode solicitar a presença de advogado imediatamente\n3. **Comunicação à família** — A autoridade policial deve comunicar à sua família\n4. **Assistência médica** — Tem direito a atendimento médico se necessário\n5. **Audiência de custódia** — Deve ser apresentado a um juiz em até 24 horas\n\n**O que fazer imediatamente:**\n\n- Mantenha a calma e não resista à prisão\n- Não faça declarações sem a presença de um advogado\n- Solicite que avisem sua família\n- Guarde todas as informações sobre o ocorrido\n\nContate um advogado especializado o quanto antes. As primeiras horas são fundamentais para a defesa.",
+    "categoria": "Direito Penal",
+    "data": "2026-03-10",
+    "autor": "Yuri Rangel",
+    "imagem": null
+  },
+  {
+    "id": 3,
+    "titulo": "Audiência de Custódia: o que é e como funciona",
+    "resumo": "A audiência de custódia é realizada nas primeiras 24 horas após a prisão. Saiba o que esperar e como a defesa pode atuar nesse momento crítico.",
+    "conteudo": "A audiência de custódia foi implementada no Brasil como forma de assegurar que toda pessoa presa seja levada, sem demora, à presença de um juiz.\n\n**O que acontece na audiência de custódia?**\n\nO juiz irá:\n- Verificar se a prisão foi realizada de forma legal\n- Ouvir o preso sobre possíveis maus-tratos ou abusos\n- Analisar a necessidade de manutenção da prisão\n- Decidir sobre a concessão de liberdade provisória\n\n**Decisões possíveis do juiz:**\n\n1. **Relaxamento da prisão** — Quando a prisão for ilegal\n2. **Liberdade provisória** — Com ou sem fiança\n3. **Medidas cautelares alternativas** — Monitoração eletrônica, proibição de se ausentar, etc.\n4. **Manutenção da prisão** — Quando necessário para a instrução ou segurança\n\n**A importância da defesa técnica:**\n\nTer um advogado especializado na audiência de custódia faz toda a diferença. Um profissional experiente sabe como apresentar os argumentos corretos para obter a liberdade do cliente nesse momento fundamental.\n\nNão deixe para depois. Entre em contato agora.",
+    "categoria": "Processo Penal",
+    "data": "2026-03-05",
+    "autor": "Yuri Rangel",
+    "imagem": null
+  },
+  {
+    "id": 4,
+    "titulo": "Lei de Drogas: usuário ou traficante?",
+    "resumo": "A Lei 11.343/2006 diferencia usuário de traficante, mas essa distinção nem sempre é simples. Entenda os critérios utilizados pelos juízes.",
+    "conteudo": "A Lei de Drogas (Lei 11.343/2006) é uma das mais importantes do direito penal brasileiro e sua aplicação exige análise cuidadosa das circunstâncias de cada caso.\n\n**Critérios para distinguir usuário de traficante:**\n\nO artigo 28 da lei prevê que o juiz deve considerar:\n- A natureza e a quantidade da substância apreendida\n- O local e as condições em que se desenvolveu a ação\n- As circunstâncias sociais e pessoais do agente\n- A conduta e os antecedentes do agente\n\n**Penas previstas:**\n\n- **Usuário (art. 28):** Advertência, prestação de serviços à comunidade ou medida educativa — SEM prisão\n- **Traficante (art. 33):** Reclusão de 5 a 15 anos + multa\n\n**Por que a defesa é crucial?**\n\nA distinção entre usuário e traficante é uma das questões mais sensíveis da lei. Uma defesa técnica bem construída pode fazer a diferença entre uma medida educativa e anos de prisão.\n\nSe você está sendo investigado ou processado por crime relacionado à Lei de Drogas, procure imediatamente um advogado especializado em direito penal.",
+    "categoria": "Lei de Drogas",
+    "data": "2026-02-28",
+    "autor": "Yuri Rangel",
+    "imagem": null
+  }
+]
