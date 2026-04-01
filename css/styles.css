@@ -7,6 +7,8 @@
 /* CSS Custom Properties */
 :root {
   /* Colors */
+  --primary:      #1F4D3A;
+  --primary-dark: #163728;
   --gold:         #C9A86A;
   --gold-light:   #E2C98A;
   --gold-dark:    #A8893A;
@@ -135,7 +137,7 @@ img { max-width: 100%; height: auto; display: block; }
   left: 0;
   right: 0;
   z-index: 100;
-  background: rgba(13, 13, 13, 0.97);
+  background: rgba(31, 77, 58, 0.97);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(201, 168, 106, 0.2);
@@ -561,7 +563,9 @@ img { max-width: 100%; height: auto; display: block; }
   border-color: rgba(201,168,106,0.35);
 }
 
-.pillar-icon { font-size: 16px; flex-shrink: 0; }
+.pillar-icon { display: flex; align-items: center; flex-shrink: 0; color: var(--gold); }
+
+.pillar-icon svg { width: 20px; height: 20px; }
 
 .about-closing {
   font-size: 14px;
@@ -605,10 +609,16 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .area-icon {
-  font-size: 28px;
-  margin-bottom: 14px;
-  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
 }
+
+.area-icon svg { width: 32px; height: 32px; }
 
 .area-card h3 {
   font-size: 18px;
@@ -1028,7 +1038,7 @@ img { max-width: 100%; height: auto; display: block; }
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(13,13,13,0.98);
+    background: rgba(31, 77, 58, 0.98);
     flex-direction: column;
     align-items: center;
     justify-content: center;
