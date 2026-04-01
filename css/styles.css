@@ -69,14 +69,14 @@ a:hover{color:var(--primary)}
 
 /* HERO SECTION */
 .hero{
-  background:linear-gradient(rgba(26,26,26,0.7), rgba(26,26,26,0.7)), url('../assets/fundo.png');
-  background-size:cover;
-  background-position:right top;
-  background-attachment:fixed;
-  color:white;
-  padding:100px 0;
-  text-align:center;
-  min-height:600px;
+  background: linear-gradient(rgba(26,26,26,0.7), rgba(26,26,26,0.7)), url('../assets/fundo.png');
+  background-size: cover;
+  background-position: center 20%;
+  background-attachment: fixed;
+  color: white;
+  padding: 100px 0;
+  text-align: center;
+  min-height: 600px;
 }
 .hero-content{animation:fadeInDown 0.8s ease}
 .hero-logo{margin-bottom:20px}
