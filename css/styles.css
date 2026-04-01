@@ -159,8 +159,8 @@ img { max-width: 100%; height: auto; display: block; }
 .brand { display: flex; align-items: center; flex-shrink: 0; }
 
 .logo {
-  width: 52px;
-  height: 52px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
   filter: brightness(1.05);
 }
@@ -368,8 +368,8 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .hero-logo img {
-  width: 90px;
-  height: 90px;
+  width: 140px;
+  height: 140px;
   object-fit: contain;
   margin: 0 auto;
   filter: drop-shadow(0 4px 16px rgba(201,168,106,0.3));
@@ -896,8 +896,8 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .footer-logo {
-  width: 60px;
-  height: 60px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
   margin-bottom: 16px;
 }
