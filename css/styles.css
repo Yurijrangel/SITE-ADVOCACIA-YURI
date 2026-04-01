@@ -208,6 +208,8 @@ a:hover{color:var(--primary)}
   background: rgba(201,168,106,0.15);
   color: white;
   border-left-color: var(--secondary);
+}
+
 .about-image img {
   object-position: center top;
 }
