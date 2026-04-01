@@ -1,7 +1,18 @@
 .about-image img {
+  object-fit: cover;
   object-position: center top;
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .hero {
   background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
