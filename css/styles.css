@@ -16,3 +16,9 @@
   align-items: center;
   justify-content: center;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    background-attachment: scroll;
+  }
+}
