@@ -1,96 +1,126 @@
-// SCRIPTS — Advocacia Criminal Site
-document.addEventListener('DOMContentLoaded', function(){
-  // 1. Inserir ano no footer
-  const yearEl = document.getElementById('year');
-  if(yearEl) yearEl.textContent = new Date().getFullYear();
+// YURI RANGEL ADVOCACIA — Site Scripts
+(function () {
+  'use strict';
 
-  // 2. Toggle menu mobile
-  const navToggle = document.getElementById('nav-toggle');
-  const mainNav = document.getElementById('main-nav');
-  if(navToggle && mainNav){
-    navToggle.addEventListener('click', function(){
-      const isOpen = mainNav.style.display === 'flex';
-      mainNav.style.display = isOpen ? 'none' : 'flex';
-      mainNav.style.position = 'absolute';
-      mainNav.style.top = '100%';
-      mainNav.style.left = '0';
-      mainNav.style.right = '0';
-      mainNav.style.background = 'white';
-      mainNav.style.flexDirection = 'column';
-      mainNav.style.gap = '0';
-      mainNav.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
-      mainNav.style.borderTop = '1px solid #eee';
-      document.querySelectorAll('.main-nav a').forEach(link => {
-        link.style.padding = '12px 24px';
-        link.style.borderBottom = '1px solid #f0f0f0';
-      });
-    });
+  document.addEventListener('DOMContentLoaded', function () {
 
-    // Fechar menu ao clicar em link
-    mainNav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        mainNav.style.display = 'none';
-      });
-    });
-  }
+    // 1. Footer year
+    var yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // 3. Scroll suave para links de âncora
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e){
-      const href = this.getAttribute('href');
-      if(href !== '#') {
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if(target){
-          const headerHeight = document.querySelector('.site-header').offsetHeight;
-          const targetPosition = target.offsetTop - headerHeight - 20;
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-          // Fechar menu mobile se aberto
-          const mainNav = document.getElementById('main-nav');
-          if(mainNav) mainNav.style.display = 'none';
+    // 2. Header scroll effect
+    var header = document.getElementById('site-header');
+    if (header) {
+      var onScroll = function () {
+        if (window.scrollY > 40) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
         }
-      }
-    });
-  });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
 
-  // 4. Lidar com envio do formulário (simulado)
-  const contactForm = document.getElementById('contactForm');
-  if(contactForm){
-    contactForm.addEventListener('submit', function(e){
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const phone = document.getElementById('phone').value;
-      const message = document.getElementById('message').value;
-      
-      // Enviar via WhatsApp (alternativa)
-      const whatsappMsg = `Olá, meu nome é ${name}. Telefone: ${phone}. Mensagem: ${message}`;
-      const encodedMsg = encodeURIComponent(whatsappMsg);
-      window.open(`https://wa.me/5541999999999?text=${encodedMsg}`, '_blank');
-      
-      // Limpar formulário
-      contactForm.reset();
-      alert('Mensagem enviada via WhatsApp!');
-    });
-  }
+    // 3. Mobile nav toggle
+    var navToggle = document.getElementById('nav-toggle');
+    var mainNav = document.getElementById('main-nav');
 
-  // 5. Animação ao scroll
-  const observer = new IntersectionObserver(function(entries){
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  });
-  
-  document.querySelectorAll('.area-card, .differential-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-  });
-});
+    if (navToggle && mainNav) {
+      navToggle.addEventListener('click', function () {
+        var isOpen = mainNav.classList.toggle('is-open');
+        navToggle.classList.toggle('active', isOpen);
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      });
 
+      // Close nav on link click
+      mainNav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          mainNav.classList.remove('is-open');
+          navToggle.classList.remove('active');
+          navToggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+
+      // Close nav on Escape key
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && mainNav.classList.contains('is-open')) {
+          mainNav.classList.remove('is-open');
+          navToggle.classList.remove('active');
+          navToggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+          navToggle.focus();
+        }
+      });
+    }
+
+    // 4. Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+      anchor.addEventListener('click', function (e) {
+        var href = this.getAttribute('href');
+        if (href === '#') return;
+        var target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          var headerHeight = header ? header.offsetHeight : 0;
+          var targetY = target.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // 5. Scroll reveal animations using IntersectionObserver
+    var revealEls = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
+
+    if ('IntersectionObserver' in window && revealEls.length) {
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      revealEls.forEach(function (el) {
+        observer.observe(el);
+      });
+    } else {
+      // Fallback: show all elements immediately
+      revealEls.forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    }
+
+    // 6. Active nav link highlight on scroll
+    var sections = document.querySelectorAll('section[id]');
+    var navLinks = document.querySelectorAll('.main-nav a[href^="#"]');
+
+    if (sections.length && navLinks.length) {
+      var sectionObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              var id = entry.target.getAttribute('id');
+              navLinks.forEach(function (link) {
+                link.removeAttribute('aria-current');
+                if (link.getAttribute('href') === '#' + id) {
+                  link.setAttribute('aria-current', 'page');
+                }
+              });
+            }
+          });
+        },
+        { rootMargin: '-40% 0px -55% 0px' }
+      );
+
+      sections.forEach(function (sec) { sectionObserver.observe(sec); });
+    }
+
+  });
+}());
