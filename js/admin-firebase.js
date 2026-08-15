@@ -1,6 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js';
 import { getFirestore, collection, addDoc, serverTimestamp, getDocs, doc, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js';
 
 const config = window.FIREBASE_CONFIG;
 if (!config) {
@@ -12,18 +13,59 @@ if (!config) {
 const app = initializeApp(config);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
+
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+
+async function imageHandler() {
+  const input = document.createElement('input');
+  input.setAttribute('type', 'file');
+  input.setAttribute('accept', 'image/*');
+  input.click();
+
+  input.onchange = async () => {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > MAX_IMAGE_BYTES) {
+      alert('Imagem muito grande. Envie um arquivo de até 5 MB.');
+      return;
+    }
+
+    const range = quill.getSelection(true) || { index: quill.getLength() };
+    quill.insertText(range.index, 'Enviando imagem...', { italic: true });
+
+    try {
+      const path = `blog-images/${Date.now()}-${file.name}`;
+      const imageRef = ref(storage, path);
+      await uploadBytes(imageRef, file);
+      const url = await getDownloadURL(imageRef);
+      quill.deleteText(range.index, 'Enviando imagem...'.length);
+      quill.insertEmbed(range.index, 'image', url);
+      quill.setSelection(range.index + 1);
+    } catch (err) {
+      quill.deleteText(range.index, 'Enviando imagem...'.length);
+      console.error('Erro ao enviar imagem:', err);
+      alert('Erro ao enviar imagem: ' + (err.message || err.code));
+    }
+  };
+}
 
 const quill = new window.Quill('#article-content', {
   theme: 'snow',
   modules: {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      ['blockquote', 'code-block'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'image'],
-      ['clean']
-    ]
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['blockquote', 'code-block'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['link', 'image'],
+        ['clean']
+      ],
+      handlers: {
+        image: imageHandler
+      }
+    }
   }
 });
 

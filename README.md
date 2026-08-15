@@ -150,7 +150,31 @@ Faça login com o e-mail e senha criados no Firebase e publique os artigos.
 ### 4. Como os artigos são armazenados
 Os artigos são salvos na coleção `blogPosts` do Firestore.
 
-### 5. Segurança
+### 5. Imagens nos artigos
+O botão de imagem do editor faz upload do arquivo para o **Firebase Storage** (pasta `blog-images/`) e insere no artigo apenas o link da imagem — assim o texto não fica gigante e não estoura o limite de 1 MB por documento do Firestore.
+
+Para funcionar, ative o Storage no projeto:
+
+- Firebase Console → `Build` → `Storage` → `Get started` (cria o bucket padrão)
+- Em `Rules`, use algo como:
+
+```js
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /blog-images/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}
+```
+
+Limite atual no admin: imagens de até 5 MB.
+
+### 6. Segurança
 Para produção, o ideal é configurar regras do Firestore para permitir escrita só para usuários autenticados.
 
 ```js
