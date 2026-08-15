@@ -50,6 +50,14 @@ const LineHeightStyle = new Parchment.Attributor.Style('lineheight', 'line-heigh
 });
 window.Quill.register(LineHeightStyle, true);
 
+// Controle de recuo do parágrafo (sobrescreve o indent padrão do Quill, que depende de classes CSS
+// só presentes no editor e não seriam aplicadas no artigo publicado).
+const IndentStyle = new Parchment.Attributor.Style('indent', 'margin-left', {
+  scope: Parchment.Scope.BLOCK,
+  whitelist: ['0em', '2em', '4em']
+});
+window.Quill.register(IndentStyle, true);
+
 let selectedImageIndex = null;
 
 async function imageHandler() {
@@ -122,6 +130,7 @@ const commentsPanel = $('comments-panel');
 const adminCommentsList = $('admin-comments-list');
 const imageSizeToolbar = $('image-size-toolbar');
 const spacingToolbar = $('spacing-toolbar');
+const indentToolbar = $('indent-toolbar');
 
 let editingId = null;
 
@@ -158,6 +167,17 @@ spacingToolbar && spacingToolbar.querySelectorAll('button[data-spacing]').forEac
       return;
     }
     quill.format('lineheight', btn.getAttribute('data-spacing'), 'user');
+  });
+});
+
+indentToolbar && indentToolbar.querySelectorAll('button[data-indent]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const range = quill.getSelection(true);
+    if (!range) {
+      alert('Clique dentro de um parágrafo do artigo antes de escolher o recuo.');
+      return;
+    }
+    quill.format('indent', btn.getAttribute('data-indent'), 'user');
   });
 });
 
