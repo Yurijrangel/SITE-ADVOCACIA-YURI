@@ -174,8 +174,17 @@ service firebase.storage {
 
 Limite atual no admin: imagens de até 5 MB.
 
-### 6. Segurança
-Para produção, o ideal é configurar regras do Firestore para permitir escrita só para usuários autenticados.
+### 6. Editar artigos
+Na lista "Artigos publicados" do admin, cada item tem um botão **Editar** que carrega o artigo de volta no formulário (inclusive o conteúdo com imagens). Salvar atualiza o mesmo documento no Firestore em vez de criar um novo. **Cancelar edição** limpa o formulário sem salvar.
+
+### 7. Tags e bio do autor
+No formulário do admin há um campo **Tags** (separadas por vírgula) e um campo opcional **Bio do autor** — ambos aparecem no artigo publicado (tags como pills, bio como um card no fim do texto).
+
+### 8. Comentários
+Cada artigo tem uma seção de comentários pública em `post.html`. Comentários novos são salvos com `approved: false` e só aparecem no site depois de aprovados. A aprovação/exclusão é feita no admin: clique em **Editar** no artigo e use a lista "Comentários deste artigo".
+
+### 9. Segurança
+Para produção, configure as regras do Firestore para: leitura pública de artigos e comentários aprovados, escrita de artigos só para usuários autenticados, e criação de comentários pública (mas sempre como não aprovado).
 
 ```js
 rules_version = '2';
@@ -184,6 +193,16 @@ service cloud.firestore {
     match /blogPosts/{postId} {
       allow read: if true;
       allow write: if request.auth != null;
+
+      match /comments/{commentId} {
+        allow read: if resource.data.approved == true || request.auth != null;
+        allow create: if request.resource.data.approved == false
+          && request.resource.data.name is string
+          && request.resource.data.name.size() > 0
+          && request.resource.data.message is string
+          && request.resource.data.message.size() > 0;
+        allow update, delete: if request.auth != null;
+      }
     }
   }
 }

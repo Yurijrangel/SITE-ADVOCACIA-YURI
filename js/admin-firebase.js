@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js';
-import { getFirestore, collection, addDoc, serverTimestamp, getDocs, doc, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
+import { getFirestore, collection, addDoc, updateDoc, serverTimestamp, getDocs, doc, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js';
 
 const config = window.FIREBASE_CONFIG;
@@ -16,6 +16,29 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+
+// Permite gravar largura/estilo customizado nas imagens do artigo (Quill não faz isso por padrão).
+const BaseImageFormat = window.Quill.import('formats/image');
+const IMAGE_FORMAT_ATTRIBUTES = ['alt', 'width', 'style'];
+class ImageFormat extends BaseImageFormat {
+  static formats(domNode) {
+    return IMAGE_FORMAT_ATTRIBUTES.reduce((formats, attribute) => {
+      if (domNode.hasAttribute(attribute)) formats[attribute] = domNode.getAttribute(attribute);
+      return formats;
+    }, {});
+  }
+  format(name, value) {
+    if (IMAGE_FORMAT_ATTRIBUTES.indexOf(name) > -1) {
+      if (value) this.domNode.setAttribute(name, value);
+      else this.domNode.removeAttribute(name);
+    } else {
+      super.format(name, value);
+    }
+  }
+}
+window.Quill.register(ImageFormat, true);
+
+let selectedImageIndex = null;
 
 async function imageHandler() {
   const input = document.createElement('input');
@@ -42,6 +65,8 @@ async function imageHandler() {
       quill.deleteText(range.index, 'Enviando imagem...'.length);
       quill.insertEmbed(range.index, 'image', url);
       quill.setSelection(range.index + 1);
+      selectedImageIndex = range.index;
+      imageSizeToolbar && imageSizeToolbar.classList.add('is-active');
     } catch (err) {
       quill.deleteText(range.index, 'Enviando imagem...'.length);
       console.error('Erro ao enviar imagem:', err);
@@ -78,6 +103,38 @@ const loginBox = $('login-box');
 const adminPanel = $('admin-panel');
 const publishedList = $('published-list');
 const articleForm = $('article-form');
+const submitBtn = $('article-submit-btn');
+const cancelEditBtn = $('cancel-edit-btn');
+const commentsPanel = $('comments-panel');
+const adminCommentsList = $('admin-comments-list');
+const imageSizeToolbar = $('image-size-toolbar');
+
+let editingId = null;
+
+quill.root.addEventListener('click', (e) => {
+  if (e.target && e.target.tagName === 'IMG') {
+    const blot = window.Quill.find(e.target);
+    if (blot) {
+      selectedImageIndex = quill.getIndex(blot);
+      imageSizeToolbar && imageSizeToolbar.classList.add('is-active');
+      return;
+    }
+  }
+  selectedImageIndex = null;
+  imageSizeToolbar && imageSizeToolbar.classList.remove('is-active');
+});
+
+imageSizeToolbar && imageSizeToolbar.querySelectorAll('button[data-size]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (selectedImageIndex === null) {
+      alert('Clique em uma imagem do artigo antes de escolher o tamanho.');
+      return;
+    }
+    const size = btn.getAttribute('data-size');
+    const style = size ? `width:${size};height:auto;display:block;margin:20px auto;border-radius:12px;` : '';
+    quill.formatText(selectedImageIndex, 1, 'style', style, 'user');
+  });
+});
 
 function showPanel() {
   loginBox.classList.add('hidden');
@@ -120,28 +177,64 @@ function estimateReadingMinutes(html) {
   return Math.max(1, Math.ceil(words / 200));
 }
 
+function startEdit(id, post) {
+  editingId = id;
+  $('article-title').value = post.title || '';
+  $('article-category').value = post.category || '';
+  $('article-author').value = post.author || '';
+  $('article-author-bio').value = post.authorBio || '';
+  $('article-tags').value = (post.tags || []).join(', ');
+  $('article-summary').value = post.excerpt || '';
+  quill.setContents([]);
+  quill.clipboard.dangerouslyPasteHTML(post.content || '');
+  submitBtn.textContent = 'Salvar alterações';
+  cancelEditBtn.hidden = false;
+  commentsPanel.hidden = false;
+  loadCommentsForModeration(id);
+  articleForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function stopEdit() {
+  editingId = null;
+  articleForm.reset();
+  quill.setContents([]);
+  submitBtn.textContent = 'Publicar artigo';
+  cancelEditBtn.hidden = true;
+  commentsPanel.hidden = true;
+  adminCommentsList.innerHTML = '';
+}
+
+cancelEditBtn && cancelEditBtn.addEventListener('click', stopEdit);
+
 articleForm && articleForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const title = $('article-title').value.trim();
   const category = $('article-category').value.trim();
   const author = $('article-author').value.trim() || 'Yuri Rangel';
+  const authorBio = $('article-author-bio').value.trim();
+  const tags = $('article-tags').value.split(',').map(t => t.trim()).filter(Boolean);
   const summary = $('article-summary').value.trim();
   const content = quill.root.innerHTML;
   if (!title || !content || content === '<p><br></p>') return;
 
+  const payload = {
+    title,
+    category,
+    author,
+    authorBio,
+    tags,
+    excerpt: summary,
+    content,
+    readingMinutes: estimateReadingMinutes(content)
+  };
+
   try {
-    const minutes = estimateReadingMinutes(content);
-    await addDoc(collection(db, 'blogPosts'), {
-      title,
-      category,
-      author,
-      excerpt: summary,
-      content,
-      createdAt: serverTimestamp(),
-      readingMinutes: minutes
-    });
-    articleForm.reset();
-    quill.setContents([]);
+    if (editingId) {
+      await updateDoc(doc(db, 'blogPosts', editingId), { ...payload, updatedAt: serverTimestamp() });
+    } else {
+      await addDoc(collection(db, 'blogPosts'), { ...payload, createdAt: serverTimestamp() });
+    }
+    stopEdit();
     renderPublishedList();
   } catch (err) {
     console.error('Erro ao publicar:', err);
@@ -176,10 +269,19 @@ async function renderPublishedList() {
         </div>
         <div>
           <a href="post.html?id=${post.id}" target="_blank" class="btn">Abrir</a>
+          <button type="button" data-id="${post.id}" class="edit-btn">Editar</button>
           <button type="button" data-id="${post.id}" class="delete-btn">Excluir</button>
         </div>
       </li>
     `).join('');
+
+    publishedList.querySelectorAll('.edit-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const post = posts.find(p => p.id === id);
+        if (post) startEdit(id, post);
+      });
+    });
 
     publishedList.querySelectorAll('.delete-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
@@ -187,6 +289,7 @@ async function renderPublishedList() {
         if (!confirm('Excluir este artigo?')) return;
         try {
           await deleteDoc(doc(db, 'blogPosts', id));
+          if (editingId === id) stopEdit();
           renderPublishedList();
         } catch (err) {
           console.error('Erro ao excluir:', err);
@@ -197,6 +300,69 @@ async function renderPublishedList() {
   } catch (err) {
     console.error('Erro ao listar posts:', err);
     publishedList.innerHTML = '<li>Erro ao carregar artigos.</li>';
+  }
+}
+
+async function loadCommentsForModeration(postId) {
+  if (!adminCommentsList) return;
+  adminCommentsList.innerHTML = '<li>Carregando...</li>';
+
+  try {
+    const snapshot = await getDocs(collection(db, 'blogPosts', postId, 'comments'));
+    if (snapshot.empty) {
+      adminCommentsList.innerHTML = '<li>Nenhum comentário ainda.</li>';
+      return;
+    }
+
+    const comments = snapshot.docs
+      .map(docSnap => ({ id: docSnap.id, ...docSnap.data() }))
+      .sort((a, b) => {
+        const timeA = a.createdAt && a.createdAt.toDate ? a.createdAt.toDate().getTime() : 0;
+        const timeB = b.createdAt && b.createdAt.toDate ? b.createdAt.toDate().getTime() : 0;
+        return timeB - timeA;
+      });
+
+    adminCommentsList.innerHTML = comments.map(comment => `
+      <li>
+        <div>
+          <strong>${escapeHtml(comment.name || 'Anônimo')}</strong>
+          <span>${escapeHtml(comment.message || '')}</span>
+          <span>${comment.approved ? 'Aprovado' : 'Pendente de aprovação'}</span>
+        </div>
+        <div>
+          ${comment.approved ? '' : `<button type="button" class="approve-btn" data-id="${comment.id}">Aprovar</button>`}
+          <button type="button" class="delete-comment-btn" data-id="${comment.id}">Excluir</button>
+        </div>
+      </li>
+    `).join('');
+
+    adminCommentsList.querySelectorAll('.approve-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        try {
+          await updateDoc(doc(db, 'blogPosts', postId, 'comments', btn.getAttribute('data-id')), { approved: true });
+          loadCommentsForModeration(postId);
+        } catch (err) {
+          console.error('Erro ao aprovar comentário:', err);
+          alert('Erro ao aprovar comentário: ' + (err.message || err.code));
+        }
+      });
+    });
+
+    adminCommentsList.querySelectorAll('.delete-comment-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Excluir este comentário?')) return;
+        try {
+          await deleteDoc(doc(db, 'blogPosts', postId, 'comments', btn.getAttribute('data-id')));
+          loadCommentsForModeration(postId);
+        } catch (err) {
+          console.error('Erro ao excluir comentário:', err);
+          alert('Erro ao excluir comentário: ' + (err.message || err.code));
+        }
+      });
+    });
+  } catch (err) {
+    console.error('Erro ao listar comentários:', err);
+    adminCommentsList.innerHTML = '<li>Erro ao carregar comentários.</li>';
   }
 }
 
