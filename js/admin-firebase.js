@@ -82,6 +82,7 @@ articleForm && articleForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const title = $('article-title').value.trim();
   const category = $('article-category').value.trim();
+  const author = $('article-author').value.trim() || 'Yuri Rangel';
   const summary = $('article-summary').value.trim();
   const content = quill.root.innerHTML;
   if (!title || !content || content === '<p><br></p>') return;
@@ -91,6 +92,7 @@ articleForm && articleForm.addEventListener('submit', async (e) => {
     await addDoc(collection(db, 'blogPosts'), {
       title,
       category,
+      author,
       excerpt: summary,
       content,
       createdAt: serverTimestamp(),

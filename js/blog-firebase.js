@@ -53,6 +53,7 @@ async function loadList() {
           <h2>${escapeHtml(post.title || '')}</h2>
           <p>${escapeHtml(excerpt)}</p>
           <div class="article-meta">
+            <span>${escapeHtml(post.author || 'Yuri Rangel')}</span>
             <span>${post.readingMinutes || '4 min de leitura'}</span>
             <span>${date}</span>
           </div>
@@ -90,6 +91,7 @@ async function loadDetail() {
         <p class="article-kicker">${escapeHtml(post.category || '')}</p>
         <h2>${escapeHtml(post.title || '')}</h2>
         <div class="article-meta article-meta-large">
+          <span>Por ${escapeHtml(post.author || 'Yuri Rangel')}</span>
           <span>${post.readingMinutes || '4 min de leitura'}</span>
           <span>${date}</span>
         </div>
