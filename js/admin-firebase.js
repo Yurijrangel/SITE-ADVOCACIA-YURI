@@ -38,6 +38,18 @@ class ImageFormat extends BaseImageFormat {
 }
 window.Quill.register(ImageFormat, true);
 
+// Garante que o alinhamento seja gravado como estilo inline (funciona fora do editor, sem CSS extra).
+const AlignStyle = window.Quill.import('attributors/style/align');
+window.Quill.register(AlignStyle, true);
+
+// Controle de espaçamento entre parágrafos (não existe por padrão no Quill).
+const Parchment = window.Quill.import('parchment');
+const LineHeightStyle = new Parchment.Attributor.Style('lineheight', 'line-height', {
+  scope: Parchment.Scope.BLOCK,
+  whitelist: ['1.3', '1.8', '2.2']
+});
+window.Quill.register(LineHeightStyle, true);
+
 let selectedImageIndex = null;
 
 async function imageHandler() {
@@ -82,6 +94,7 @@ const quill = new window.Quill('#article-content', {
       container: [
         [{ header: [1, 2, 3, false] }],
         ['bold', 'italic', 'underline', 'strike'],
+        [{ align: [] }],
         ['blockquote', 'code-block'],
         [{ list: 'ordered' }, { list: 'bullet' }],
         ['link', 'image'],
@@ -108,6 +121,7 @@ const cancelEditBtn = $('cancel-edit-btn');
 const commentsPanel = $('comments-panel');
 const adminCommentsList = $('admin-comments-list');
 const imageSizeToolbar = $('image-size-toolbar');
+const spacingToolbar = $('spacing-toolbar');
 
 let editingId = null;
 
@@ -133,6 +147,17 @@ imageSizeToolbar && imageSizeToolbar.querySelectorAll('button[data-size]').forEa
     const size = btn.getAttribute('data-size');
     const style = size ? `width:${size};height:auto;display:block;margin:20px auto;border-radius:12px;` : '';
     quill.formatText(selectedImageIndex, 1, 'style', style, 'user');
+  });
+});
+
+spacingToolbar && spacingToolbar.querySelectorAll('button[data-spacing]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const range = quill.getSelection(true);
+    if (!range) {
+      alert('Clique dentro de um parágrafo do artigo antes de escolher o espaçamento.');
+      return;
+    }
+    quill.format('lineheight', btn.getAttribute('data-spacing'), 'user');
   });
 });
 
