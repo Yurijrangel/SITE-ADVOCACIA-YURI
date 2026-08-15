@@ -108,6 +108,63 @@ Depois ativar GitHub Pages nas configurações do repositório.
 
 **Alternativas:** Netlify, Vercel (arrastar e soltar)
 
+## Firebase (para login e publicação de artigos)
+
+O blog foi preparado para funcionar com Firebase Auth + Firestore.
+
+### 1. Criar o projeto no Firebase
+- Acesse https://console.firebase.google.com/
+- Crie um projeto novo
+- Ative `Authentication`
+- Em `Sign-in method`, habilite `Email/Password`
+- Crie pelo menos um usuário administrador
+- Ative `Firestore Database`
+- Crie uma base no modo teste ou produção
+
+### 2. Configurar o arquivo de conexão
+Abra `firebase-config.js` e substitua os valores fictícios pelos dados do seu projeto Firebase:
+
+```js
+window.FIREBASE_CONFIG = {
+  apiKey: 'SUA_API_KEY',
+  authDomain: 'SEU_PROJETO.firebaseapp.com',
+  projectId: 'SEU_PROJETO',
+  storageBucket: 'SEU_PROJETO.appspot.com',
+  messagingSenderId: 'SEU_MESSAGING_SENDER_ID',
+  appId: 'SEU_APP_ID'
+};
+```
+
+Esses valores podem ser pegos em:
+- Firebase Console → Configuração do projeto → Seus apps → Configuração do web app
+
+### 3. Usar o painel admin
+Após configurar o Firebase, abra:
+
+```text
+http://localhost:8000/admin.html
+```
+
+Faça login com o e-mail e senha criados no Firebase e publique os artigos.
+
+### 4. Como os artigos são armazenados
+Os artigos são salvos na coleção `blogPosts` do Firestore.
+
+### 5. Segurança
+Para produção, o ideal é configurar regras do Firestore para permitir escrita só para usuários autenticados.
+
+```js
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /blogPosts/{postId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}
+```
+
 ## Licença
 
 © 2026 Yuri Rangel Advocacia. Todos os direitos reservados.
