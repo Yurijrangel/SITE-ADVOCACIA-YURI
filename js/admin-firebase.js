@@ -58,6 +58,13 @@ const IndentStyle = new Parchment.Attributor.Style('indent', 'margin-left', {
 });
 window.Quill.register(IndentStyle, true);
 
+// Recuo da primeira linha do parágrafo (text-indent), padrão da formatação de texto jurídico/ABNT.
+const FirstLineIndentStyle = new Parchment.Attributor.Style('firstline', 'text-indent', {
+  scope: Parchment.Scope.BLOCK,
+  whitelist: ['0cm', '1.25cm', '2.5cm']
+});
+window.Quill.register(FirstLineIndentStyle, true);
+
 let selectedImageIndex = null;
 
 async function imageHandler() {
@@ -131,6 +138,7 @@ const adminCommentsList = $('admin-comments-list');
 const imageSizeToolbar = $('image-size-toolbar');
 const spacingToolbar = $('spacing-toolbar');
 const indentToolbar = $('indent-toolbar');
+const firstLineToolbar = $('firstline-toolbar');
 
 let editingId = null;
 
@@ -178,6 +186,17 @@ indentToolbar && indentToolbar.querySelectorAll('button[data-indent]').forEach(b
       return;
     }
     quill.format('indent', btn.getAttribute('data-indent'), 'user');
+  });
+});
+
+firstLineToolbar && firstLineToolbar.querySelectorAll('button[data-firstline]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const range = quill.getSelection(true);
+    if (!range) {
+      alert('Clique dentro de um parágrafo do artigo antes de escolher o recuo da primeira linha.');
+      return;
+    }
+    quill.format('firstline', btn.getAttribute('data-firstline'), 'user');
   });
 });
 
