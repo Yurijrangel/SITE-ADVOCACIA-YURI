@@ -208,6 +208,7 @@ async function loadDetail() {
           <div class="author-bio-card">
             <div class="author-bio-name">${escapeHtml(post.author || 'Yuri Rangel')}</div>
             <p>${escapeHtml(post.authorBio)}</p>
+            ${post.authorSocial && /^https?:\/\//i.test(post.authorSocial) ? `<a class="author-bio-social" href="${escapeHtml(post.authorSocial)}" target="_blank" rel="noopener noreferrer">Ver perfil ${SHARE_ICONS.link}</a>` : ''}
           </div>
         ` : ''}
         <a href="blog.html" class="btn btn-dark btn-outline-dark">Voltar para o blog</a>

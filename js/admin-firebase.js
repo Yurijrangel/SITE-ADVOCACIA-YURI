@@ -42,6 +42,10 @@ window.Quill.register(ImageFormat, true);
 const AlignStyle = window.Quill.import('attributors/style/align');
 window.Quill.register(AlignStyle, true);
 
+// Idem para tamanho de fonte — usado na legenda da imagem.
+const SizeStyle = window.Quill.import('attributors/style/size');
+window.Quill.register(SizeStyle, true);
+
 // Controle de espaçamento entre parágrafos (não existe por padrão no Quill).
 const Parchment = window.Quill.import('parchment');
 const LineHeightStyle = new Parchment.Attributor.Style('lineheight', 'line-height', {
@@ -91,9 +95,22 @@ async function imageHandler() {
       const url = await getDownloadURL(imageRef);
       quill.deleteText(range.index, 'Enviando imagem...'.length);
       quill.insertEmbed(range.index, 'image', url);
-      quill.setSelection(range.index + 1);
       selectedImageIndex = range.index;
       imageSizeToolbar && imageSizeToolbar.classList.add('is-active');
+
+      let cursor = range.index + 1;
+      const caption = window.prompt('Legenda da imagem (opcional, deixe em branco para pular):', '');
+      if (caption && caption.trim()) {
+        quill.insertText(cursor, '\n', 'user');
+        cursor += 1;
+        const text = caption.trim();
+        quill.insertText(cursor, text, { italic: true, color: '#9A9A9A', size: '13px' }, 'user');
+        quill.formatLine(cursor, text.length, 'align', 'center', 'user');
+        cursor += text.length;
+        quill.insertText(cursor, '\n', { italic: false, color: false, size: false }, 'user');
+        cursor += 1;
+      }
+      quill.setSelection(cursor);
     } catch (err) {
       quill.deleteText(range.index, 'Enviando imagem...'.length);
       console.error('Erro ao enviar imagem:', err);
@@ -247,6 +264,7 @@ function startEdit(id, post) {
   $('article-category').value = post.category || '';
   $('article-author').value = post.author || '';
   $('article-author-bio').value = post.authorBio || '';
+  $('article-author-social').value = post.authorSocial || '';
   $('article-tags').value = (post.tags || []).join(', ');
   $('article-summary').value = post.excerpt || '';
   quill.setContents([]);
@@ -276,6 +294,7 @@ articleForm && articleForm.addEventListener('submit', async (e) => {
   const category = $('article-category').value.trim();
   const author = $('article-author').value.trim() || 'Yuri Rangel';
   const authorBio = $('article-author-bio').value.trim();
+  const authorSocial = $('article-author-social').value.trim();
   const tags = $('article-tags').value.split(',').map(t => t.trim()).filter(Boolean);
   const summary = $('article-summary').value.trim();
   const content = quill.root.innerHTML;
@@ -286,6 +305,7 @@ articleForm && articleForm.addEventListener('submit', async (e) => {
     category,
     author,
     authorBio,
+    authorSocial,
     tags,
     excerpt: summary,
     content,

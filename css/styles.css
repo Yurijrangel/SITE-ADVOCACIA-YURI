@@ -1259,6 +1259,13 @@ img { max-width: 100%; height: auto; display: block; }
   margin: 0 0 24px 22px;
 }
 
+.article-shell img {
+  margin: 28px auto;
+  border-radius: 12px;
+  border: 1px solid rgba(13,13,13,0.08);
+  box-shadow: 0 20px 45px rgba(13,13,13,0.1);
+}
+
 .article-shell blockquote {
   margin: 24px 0;
   padding: 20px 24px;
@@ -1540,6 +1547,25 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--muted);
   margin: 0;
   font-size: 15px;
+}
+
+.author-bio-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.author-bio-social svg {
+  width: 14px;
+  height: 14px;
+}
+
+.author-bio-social:hover {
+  color: var(--gold-dark);
 }
 
 .comments-section {
