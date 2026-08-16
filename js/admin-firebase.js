@@ -42,12 +42,27 @@ window.Quill.register(ImageFormat, true);
 const AlignStyle = window.Quill.import('attributors/style/align');
 window.Quill.register(AlignStyle, true);
 
-// Idem para tamanho de fonte — usado na legenda da imagem.
+// Idem para tamanho de fonte.
 const SizeStyle = window.Quill.import('attributors/style/size');
 window.Quill.register(SizeStyle, true);
 
+// Idem para cor do texto (sem whitelist: aceita qualquer cor, vinda do seletor de cor nativo).
+const ColorStyle = window.Quill.import('attributors/style/color');
+window.Quill.register(ColorStyle, true);
+
 // Controle de espaçamento entre parágrafos (não existe por padrão no Quill).
 const Parchment = window.Quill.import('parchment');
+
+// Fonte: o "font" padrão do Quill só aceita serif/monospace via classe CSS do editor.
+// Registramos como estilo inline com as duas fontes da marca, para funcionar no artigo publicado.
+const FontFamilyStyle = new Parchment.Attributor.Style('font', 'font-family', {
+  scope: Parchment.Scope.INLINE,
+  whitelist: [
+    "'Cormorant Garamond', Georgia, serif",
+    "'Outfit', system-ui, -apple-system, sans-serif"
+  ]
+});
+window.Quill.register(FontFamilyStyle, true);
 const LineHeightStyle = new Parchment.Attributor.Style('lineheight', 'line-height', {
   scope: Parchment.Scope.BLOCK,
   whitelist: ['1.3', '1.8', '2.2']
@@ -124,7 +139,6 @@ const quill = new window.Quill('#article-content', {
   modules: {
     toolbar: {
       container: [
-        [{ header: [1, 2, 3, false] }],
         ['bold', 'italic', 'underline', 'strike'],
         [{ align: [] }],
         ['blockquote', 'code-block'],
@@ -156,6 +170,11 @@ const imageSizeToolbar = $('image-size-toolbar');
 const spacingToolbar = $('spacing-toolbar');
 const indentToolbar = $('indent-toolbar');
 const firstLineToolbar = $('firstline-toolbar');
+const headingToolbar = $('heading-toolbar');
+const fontsizeToolbar = $('fontsize-toolbar');
+const fontToolbar = $('font-toolbar');
+const colorToolbar = $('color-toolbar');
+const colorPicker = $('color-picker');
 
 let editingId = null;
 
@@ -215,6 +234,60 @@ firstLineToolbar && firstLineToolbar.querySelectorAll('button[data-firstline]').
     }
     quill.format('firstline', btn.getAttribute('data-firstline'), 'user');
   });
+});
+
+headingToolbar && headingToolbar.querySelectorAll('button[data-heading]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const range = quill.getSelection(true);
+    if (!range) {
+      alert('Clique dentro de um parágrafo do artigo antes de escolher o título.');
+      return;
+    }
+    const value = btn.getAttribute('data-heading');
+    quill.format('header', value ? Number(value) : false, 'user');
+  });
+});
+
+fontsizeToolbar && fontsizeToolbar.querySelectorAll('button[data-fontsize]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const range = quill.getSelection(true);
+    if (!range || range.length === 0) {
+      alert('Selecione (arraste o mouse sobre) o texto antes de escolher o tamanho da letra.');
+      return;
+    }
+    quill.formatText(range.index, range.length, 'size', btn.getAttribute('data-fontsize'), 'user');
+  });
+});
+
+fontToolbar && fontToolbar.querySelectorAll('button[data-font]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const range = quill.getSelection(true);
+    if (!range || range.length === 0) {
+      alert('Selecione (arraste o mouse sobre) o texto antes de escolher a fonte.');
+      return;
+    }
+    quill.formatText(range.index, range.length, 'font', btn.getAttribute('data-font') || false, 'user');
+  });
+});
+
+colorToolbar && colorToolbar.querySelectorAll('button[data-color]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const range = quill.getSelection(true);
+    if (!range || range.length === 0) {
+      alert('Selecione (arraste o mouse sobre) o texto antes de escolher a cor.');
+      return;
+    }
+    quill.formatText(range.index, range.length, 'color', btn.getAttribute('data-color') || false, 'user');
+  });
+});
+
+colorPicker && colorPicker.addEventListener('change', () => {
+  const range = quill.getSelection(true);
+  if (!range || range.length === 0) {
+    alert('Selecione (arraste o mouse sobre) o texto antes de escolher a cor.');
+    return;
+  }
+  quill.formatText(range.index, range.length, 'color', colorPicker.value, 'user');
 });
 
 function showPanel() {

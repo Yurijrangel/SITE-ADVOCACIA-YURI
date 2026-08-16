@@ -1242,6 +1242,12 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--ink);
 }
 
+.article-shell h1 {
+  font-size: clamp(40px, 5vw, 64px);
+  margin: 32px 0 16px;
+  color: var(--ink);
+}
+
 .article-shell h3 {
   font-size: clamp(24px, 2.2vw, 30px);
   margin: 28px 0 12px;
@@ -1677,6 +1683,34 @@ img { max-width: 100%; height: auto; display: block; }
 .image-size-toolbar button:hover {
   background: var(--primary);
   color: var(--white);
+}
+
+.color-swatch-btn {
+  color: var(--white) !important;
+  border-color: transparent !important;
+}
+
+.color-swatch-btn:hover {
+  filter: brightness(1.15);
+}
+
+.color-picker-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.color-picker-label input[type="color"] {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid rgba(31,77,58,0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  background: none;
 }
 
 .form-actions {
