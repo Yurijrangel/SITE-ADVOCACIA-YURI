@@ -1672,6 +1672,18 @@ img { max-width: 100%; height: auto; display: block; }
   min-width: 0;
 }
 
+#article-content {
+  background: white;
+  border-radius: 8px;
+}
+
+#article-content .ql-editor {
+  min-height: 320px;
+  max-height: 62vh;
+  overflow-y: auto;
+  padding: 12px 15px;
+}
+
 .image-size-toolbar {
   display: flex;
   flex-direction: column;
