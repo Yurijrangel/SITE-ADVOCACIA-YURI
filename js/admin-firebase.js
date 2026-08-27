@@ -52,37 +52,11 @@ window.Quill.register(ColorStyle, true);
 
 // Controle de espaçamento entre parágrafos (não existe por padrão no Quill).
 const Parchment = window.Quill.import('parchment');
-
-// Fonte: o "font" padrão do Quill só aceita serif/monospace via classe CSS do editor.
-// Registramos como estilo inline com as duas fontes da marca, para funcionar no artigo publicado.
-const FontFamilyStyle = new Parchment.Attributor.Style('font', 'font-family', {
-  scope: Parchment.Scope.INLINE,
-  whitelist: [
-    "'Cormorant Garamond', Georgia, serif",
-    "'Outfit', system-ui, -apple-system, sans-serif"
-  ]
-});
-window.Quill.register(FontFamilyStyle, true);
 const LineHeightStyle = new Parchment.Attributor.Style('lineheight', 'line-height', {
   scope: Parchment.Scope.BLOCK,
   whitelist: ['1.3', '1.8', '2.2']
 });
 window.Quill.register(LineHeightStyle, true);
-
-// Controle de recuo do parágrafo (sobrescreve o indent padrão do Quill, que depende de classes CSS
-// só presentes no editor e não seriam aplicadas no artigo publicado).
-const IndentStyle = new Parchment.Attributor.Style('indent', 'margin-left', {
-  scope: Parchment.Scope.BLOCK,
-  whitelist: ['0em', '2em', '4em']
-});
-window.Quill.register(IndentStyle, true);
-
-// Recuo da primeira linha do parágrafo (text-indent), padrão da formatação de texto jurídico/ABNT.
-const FirstLineIndentStyle = new Parchment.Attributor.Style('firstline', 'text-indent', {
-  scope: Parchment.Scope.BLOCK,
-  whitelist: ['0cm', '1.25cm', '2.5cm']
-});
-window.Quill.register(FirstLineIndentStyle, true);
 
 let selectedImageIndex = null;
 
@@ -168,13 +142,7 @@ const commentsPanel = $('comments-panel');
 const adminCommentsList = $('admin-comments-list');
 const imageSizeToolbar = $('image-size-toolbar');
 const spacingToolbar = $('spacing-toolbar');
-const indentToolbar = $('indent-toolbar');
-const firstLineToolbar = $('firstline-toolbar');
 const headingToolbar = $('heading-toolbar');
-const fontsizeToolbar = $('fontsize-toolbar');
-const fontToolbar = $('font-toolbar');
-const colorToolbar = $('color-toolbar');
-const colorPicker = $('color-picker');
 
 let editingId = null;
 
@@ -214,28 +182,6 @@ spacingToolbar && spacingToolbar.querySelectorAll('button[data-spacing]').forEac
   });
 });
 
-indentToolbar && indentToolbar.querySelectorAll('button[data-indent]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const range = quill.getSelection(true);
-    if (!range) {
-      alert('Clique dentro de um parágrafo do artigo antes de escolher o recuo.');
-      return;
-    }
-    quill.format('indent', btn.getAttribute('data-indent'), 'user');
-  });
-});
-
-firstLineToolbar && firstLineToolbar.querySelectorAll('button[data-firstline]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const range = quill.getSelection(true);
-    if (!range) {
-      alert('Clique dentro de um parágrafo do artigo antes de escolher o recuo da primeira linha.');
-      return;
-    }
-    quill.format('firstline', btn.getAttribute('data-firstline'), 'user');
-  });
-});
-
 headingToolbar && headingToolbar.querySelectorAll('button[data-heading]').forEach(btn => {
   btn.addEventListener('click', () => {
     const range = quill.getSelection(true);
@@ -246,48 +192,6 @@ headingToolbar && headingToolbar.querySelectorAll('button[data-heading]').forEac
     const value = btn.getAttribute('data-heading');
     quill.format('header', value ? Number(value) : false, 'user');
   });
-});
-
-fontsizeToolbar && fontsizeToolbar.querySelectorAll('button[data-fontsize]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const range = quill.getSelection(true);
-    if (!range || range.length === 0) {
-      alert('Selecione (arraste o mouse sobre) o texto antes de escolher o tamanho da letra.');
-      return;
-    }
-    quill.formatText(range.index, range.length, 'size', btn.getAttribute('data-fontsize'), 'user');
-  });
-});
-
-fontToolbar && fontToolbar.querySelectorAll('button[data-font]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const range = quill.getSelection(true);
-    if (!range || range.length === 0) {
-      alert('Selecione (arraste o mouse sobre) o texto antes de escolher a fonte.');
-      return;
-    }
-    quill.formatText(range.index, range.length, 'font', btn.getAttribute('data-font') || false, 'user');
-  });
-});
-
-colorToolbar && colorToolbar.querySelectorAll('button[data-color]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const range = quill.getSelection(true);
-    if (!range || range.length === 0) {
-      alert('Selecione (arraste o mouse sobre) o texto antes de escolher a cor.');
-      return;
-    }
-    quill.formatText(range.index, range.length, 'color', btn.getAttribute('data-color') || false, 'user');
-  });
-});
-
-colorPicker && colorPicker.addEventListener('change', () => {
-  const range = quill.getSelection(true);
-  if (!range || range.length === 0) {
-    alert('Selecione (arraste o mouse sobre) o texto antes de escolher a cor.');
-    return;
-  }
-  quill.formatText(range.index, range.length, 'color', colorPicker.value, 'user');
 });
 
 function showPanel() {

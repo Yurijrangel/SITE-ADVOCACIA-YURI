@@ -1261,7 +1261,14 @@ img { max-width: 100%; height: auto; display: block; }
   margin-bottom: 18px;
 }
 
-.article-shell ul {
+.article-shell li {
+  /* Artigos antigos podem ter recuo de 1ª linha salvo num item de lista, o que abre um
+     vão feio entre o marcador e o texto (text-indent empurra o texto, não o marcador). */
+  text-indent: 0 !important;
+}
+
+.article-shell ul,
+.article-shell ol {
   margin: 0 0 24px 22px;
 }
 
@@ -1653,7 +1660,7 @@ img { max-width: 100%; height: auto; display: block; }
    ============================================= */
 .editor-layout {
   display: grid;
-  grid-template-columns: 190px 1fr 190px;
+  grid-template-columns: 220px 1fr;
   gap: 16px;
   align-items: start;
 }
@@ -1701,17 +1708,6 @@ img { max-width: 100%; height: auto; display: block; }
   font-weight: 700;
 }
 
-.image-size-toolbar button,
-.color-picker-label {
-  padding: 6px 10px;
-  font-size: 12px;
-  text-align: center;
-}
-
-.color-picker-label {
-  justify-content: center;
-}
-
 @media (max-width: 900px) {
   .editor-layout {
     grid-template-columns: 1fr;
@@ -1748,34 +1744,6 @@ img { max-width: 100%; height: auto; display: block; }
 .image-size-toolbar button:hover {
   background: var(--primary);
   color: var(--white);
-}
-
-.color-swatch-btn {
-  color: var(--white) !important;
-  border-color: transparent !important;
-}
-
-.color-swatch-btn:hover {
-  filter: brightness(1.15);
-}
-
-.color-picker-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.color-picker-label input[type="color"] {
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: 1px solid rgba(31,77,58,0.3);
-  border-radius: 8px;
-  cursor: pointer;
-  background: none;
 }
 
 .form-actions {
