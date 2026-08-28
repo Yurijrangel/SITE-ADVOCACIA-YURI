@@ -58,6 +58,13 @@ const LineHeightStyle = new Parchment.Attributor.Style('lineheight', 'line-heigh
 });
 window.Quill.register(LineHeightStyle, true);
 
+// Recuo da primeira linha do parágrafo (text-indent), padrão de texto formal/jurídico.
+const FirstLineIndentStyle = new Parchment.Attributor.Style('firstline', 'text-indent', {
+  scope: Parchment.Scope.BLOCK,
+  whitelist: ['0cm', '1.25cm', '2.5cm']
+});
+window.Quill.register(FirstLineIndentStyle, true);
+
 let selectedImageIndex = null;
 
 async function imageHandler() {
@@ -143,6 +150,7 @@ const adminCommentsList = $('admin-comments-list');
 const imageSizeToolbar = $('image-size-toolbar');
 const spacingToolbar = $('spacing-toolbar');
 const headingToolbar = $('heading-toolbar');
+const firstLineToolbar = $('firstline-toolbar');
 
 let editingId = null;
 
@@ -191,6 +199,21 @@ headingToolbar && headingToolbar.querySelectorAll('button[data-heading]').forEac
     }
     const value = btn.getAttribute('data-heading');
     quill.format('header', value ? Number(value) : false, 'user');
+  });
+});
+
+firstLineToolbar && firstLineToolbar.querySelectorAll('button[data-firstline]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const range = quill.getSelection(true);
+    if (!range) {
+      alert('Clique dentro de um parágrafo do artigo antes de escolher o recuo da primeira linha.');
+      return;
+    }
+    if (quill.getFormat(range).list) {
+      alert('Recuo de primeira linha não funciona bem em listas — use só em parágrafos normais.');
+      return;
+    }
+    quill.format('firstline', btn.getAttribute('data-firstline'), 'user');
   });
 });
 
