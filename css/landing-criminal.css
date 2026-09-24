@@ -1,0 +1,47 @@
+/* =============================================
+   LANDING: ADVOGADO CRIMINALISTA EM CURITIBA
+   Estilos exclusivos desta página. Reaproveita variáveis,
+   tipografia e componentes já definidos em styles.css —
+   aqui só o que não existia ainda.
+   ============================================= */
+
+/* Grade de 3 passos (o componente .process-grid do site é fixo em 4
+   colunas com uma linha decorativa calibrada para 4 itens). */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+@media (max-width: 900px) {
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* Bloco de acolhimento para familiares — tom mais sóbrio que o CTA
+   urgente (fundo claro, sem gradiente escuro). */
+.family-callout {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid rgba(13,13,13,0.06);
+  border-top: 3px solid var(--gold);
+  border-radius: var(--radius-lg);
+  padding: 56px 40px;
+}
+
+.family-callout p {
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.7;
+  margin: 18px 0 30px;
+}
+
+@media (max-width: 640px) {
+  .family-callout {
+    padding: 40px 24px;
+  }
+}
