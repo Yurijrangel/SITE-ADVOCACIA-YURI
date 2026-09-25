@@ -11,6 +11,24 @@
 
     gtag('config', 'AW-18473080445');
   </script>
+  <!-- Event snippet for Enviar formulário de lead conversion page
+  In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+  <script>
+  function gtag_report_conversion(url) {
+    var callback = function () {
+      if (typeof(url) != 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'conversion', {
+        'send_to': 'AW-18473080445/G_taCMTbmIQdEP2s0-hE',
+        'value': 1.0,
+        'currency': 'BRL',
+        'event_callback': callback
+    });
+    return false;
+  }
+  </script>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Advocacia criminal em Curitiba. Atuação em processos criminais, prisão em flagrante, audiência de custódia, habeas corpus e execução penal." />
   <meta name="keywords" content="advogado criminalista em Curitiba, advogado criminal em Curitiba, prisão em flagrante, audiência de custódia, habeas corpus, processo criminal, execução penal, progressão de regime, benefícios da execução penal" />
@@ -290,5 +308,26 @@
   </a>
 
   <script src="../js/scripts.js"></script>
+  <script>
+    // Google Ads: registra conversão ao clicar nos CTAs de WhatsApp desta landing page.
+    // Não bloqueia nem redireciona a aba atual — os links continuam abrindo o WhatsApp
+    // normalmente (nova aba, via target="_blank" já existente no href).
+    (function () {
+      var whatsappCtaIds = [
+        'cta-whatsapp-principal',
+        'cta-whatsapp-familia',
+        'cta-whatsapp-final',
+        'whatsapp-float-criminal'
+      ];
+      whatsappCtaIds.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('click', function () {
+            gtag_report_conversion();
+          });
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
